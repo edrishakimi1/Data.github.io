@@ -1,0 +1,12 @@
+/* Center the map */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+#map {
+    width: 900px;
+    height: 600px;
+}
