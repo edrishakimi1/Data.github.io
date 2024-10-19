@@ -7,10 +7,43 @@
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <link rel="stylesheet" href="styles.css">
         <script src="https://d3js.org/d3.v5.min.js"></script>
-    </head>    
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <body>
-        <title>Choropleth Map - Minimum Income by State in the USA</title>
-        <div id="map"></div>
+        <header>
+            <h1 id="title">Minimum Income Across U.S. States (2000-2023)</h1>
+        </header>
+        <main>
+            <section>
+                <p>This interactive choropleth map visualizes the minimum income by state across the USA from 2000 to 2023. You can explore the data by selecting different years from the dropdown menu or using the slider. The map uses a color scale to indicate the income levels, with darker colors representing higher incomes.</p>
+            </section>
+
+            <section id="map-container">
+                <div id="year-selector">
+                    <select id="year-dropdown"></select>
+                    <input type="range" id="year-slider" min="2000" max="2023" value="2023">
+                </div>
+                <div id="map"></div>
+            </section>
+
+            <section id="chart-container">
+                <canvas id="income-chart"></canvas>
+            </section>
+        </main>
+        <footer>
+            <p>
+                <strong>Developer:</strong> 
+                <a href="https://www.linkedin.com/in/edris-hakimi/" target="_blank" rel="noopener noreferrer">
+                    Edris Hakimi
+                </a><br>
+                <strong>Data Source:</strong> 
+                <a href="https://www.dol.gov/agencies/whd/state/minimum-wage/history" target="_blank" rel="noopener noreferrer">
+                    U.S. Department of Labor
+                </a><br>
+                Visualization created with Plotly and D3.js
+            </p>
+        </footer>
+        
+
         <script type="text/javascript" src="app.js"></script>
     </body>
 </html>

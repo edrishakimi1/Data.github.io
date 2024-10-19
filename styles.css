@@ -1,12 +1,103 @@
-/* Center the map */
+/* Keskitetään sisältö ja lisätään tilaa */
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #524f4f;
+}
+
+/* Otsikon tyyli */
+header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #4a4a4a;
+}
+
+/* Tekstikappaleiden tyyli */
+p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px auto;
+    color: #666;
+}
+
+/* Kartan laatikon tyyli */
+#map-container {
+    width: 100vw; /* Full width of the viewport */
+    height: 80vh; /* Adjust the height to cover more screen space */
+    border: none; /* Remove borders if you don't want them */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0 auto; /* Center the container */
+}
+#content-container {
+    width: 100vw; /* Full width of the viewport */
+    max-width: 100vw; /* No maximum width, make it span the full screen */
+    display: flex;
+    flex-direction: column; /* Stack the map and the chart vertically */
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 #map {
-    width: 900px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
+}
+
+#year-selector {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: rgba(29, 84, 151, 0.8); /* Slight background for better visibility */
+}
+
+/* Dropdown and slider style */
+#year-dropdown, #year-slider {
+    margin: 5px 0;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+}
+
+#chart-container {
+    width: 100vw; /* Full width of the viewport */
+    height: 50vh; /* Adjust the height for the chart */
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Optional: Add space between map and chart */
+}
+
+#income-chart {
+    width: 100%;
+    height: 100%;
+}
+
+/* Footer should be below the map and chart */
+footer {
+    width: 100vw; /* Full width of the viewport */
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #c9c9c9;
 }
