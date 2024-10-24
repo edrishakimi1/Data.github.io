@@ -9,7 +9,7 @@ Plotly.d3.csv("Data.csv", function(data) {
             value: +row[year]
         }));
     });
-
+   
     const geoJsonUrl = 'https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json';
     Plotly.d3.json(geoJsonUrl, function(geoData) {
         let currentYear = "2023";
@@ -36,6 +36,24 @@ const colorscale = [
     [0.75, 'rgb(253,174,97)'],
     [1, 'rgb(255,255,191)']
 ];
+document.getElementById('demo-button').addEventListener('click', function() {
+    let yearIndex = 0;  // Start at year 2000
+
+    function playDemo() {
+        if (yearIndex < years.length) {
+            const year = years[yearIndex];  // Get the current year
+            updateMap(year);  // Update the map for the current year
+            yearSlider.value = year;  // Sync the slider
+            yearSelector.value = year;  // Sync the dropdown
+            yearIndex++;  // Move to the next year
+
+            // Automatically call the function for the next year with a delay of 1 second (1000ms)
+            setTimeout(playDemo, 1000);
+        }
+    }
+
+    playDemo();  // Start the demo
+});
 
 const colorbar = {
     title: 'Income ', 
@@ -74,31 +92,35 @@ const colorbar = {
         let incomeChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: years, 
+                labels: years,
                 datasets: [{
-                    label: `Minimum Income by - in 2023`, 
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)', 
-                    borderColor: 'rgba(54, 162, 235, 1)', 
-                    borderWidth: 3, 
-                    pointBackgroundColor: 'rgba(75, 192, 192, 1)', 
-                    pointBorderColor: 'rgba(220, 220, 220, 1)', 
+                    label: `Minimum Income by Kansas in 2023`,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Fixed color
+                    borderColor: 'rgba(54, 162, 235, 1)',  // Fixed color
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',  // Fixed color
+                    pointBorderColor: 'rgba(220, 220, 220, 1)',  // Fixed color
                     pointRadius: 5,
-                    lineTension: 0.3, 
-                    fill: true, 
-                    data: [], 
+                    lineTension: 0.3,
+                    fill: true,
+                    data: [],
                 }]
             },
             options: {
                 plugins: {
                     legend: {
                         labels: {
+                            boxWidth: 20,  // Smaller box size
+                            boxHeight: 15,  // Custom height for better proportion
+                            padding: 15,  // Adds spacing between text and box
                             font: {
-                                size: 18, 
-                                weight: 'bold' 
+                                size: 14,  // Make text size more proportionate
+                                weight: 'bold',  // Make text stand out
+                                family: 'Arial, sans-serif',  // Custom font family
                             },
-                            color: '#000', 
+                            color: '#333',  // Text color for better visibility
                         }
-                    },
+                    }
                 },
                 scales: {
                     x: {
@@ -111,6 +133,7 @@ const colorbar = {
                 }
             }
         });
+        
 
         const yearSelector = document.getElementById('year-dropdown');
         const yearSlider = document.getElementById('year-slider');
