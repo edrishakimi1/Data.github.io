@@ -3,7 +3,6 @@ Plotly.d3.csv("Data.csv", function(data) {
     const dataByYear = {};
     const stateData = {}; 
 
-  
     data.forEach(row => {
         stateData[row["State/Jurisdiction"]] = years.map(year => ({
             year: year,
@@ -11,7 +10,6 @@ Plotly.d3.csv("Data.csv", function(data) {
         }));
     });
 
-  
     const geoJsonUrl = 'https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json';
     Plotly.d3.json(geoJsonUrl, function(geoData) {
         let currentYear = "2023";
@@ -30,24 +28,35 @@ Plotly.d3.csv("Data.csv", function(data) {
             dragmode: false, 
             scrollzoom: false, 
         };
+// Define a fixed color scale and color bar
+const colorscale = [
+    [0, 'rgb(165,0,38)'],
+    [0.25, 'rgb(215,48,39)'],
+    [0.5, 'rgb(244,109,67)'],
+    [0.75, 'rgb(253,174,97)'],
+    [1, 'rgb(255,255,191)']
+];
 
+const colorbar = {
+    title: 'Income ', 
+    tickprefix: '$',
+    thickness: 15
+};
         function updateMap(year) {
             const updatedData = [{
                 type: 'choropleth',
                 geojson: geoData,
                 locations: Object.keys(stateData),
-                z: data.map(row => +row[year]),
-                colorscale: 'Viridis', 
+                z: data.map(row => +row[year]),  // Update data based on the year
+                colorscale: colorscale,  // Use the fixed color scale
                 reversescale: true, 
-                colorbar: {
-                    title: { text: 'Income ($)', font: { size: 18 } },
-                    tickprefix: '$',
-                    tickfont: { size: 14 }
-                },
+                zmin: 4000,  // Set the minimum value for the color scale (e.g., $15k)
+                zmax: 40000,  // Set the maximum value for the color scale (e.g., $30k)
+                colorbar: colorbar,  // Use the fixed color bar
                 featureidkey: 'properties.name',
                 hovertemplate: '<b>%{location}</b><br>Income: $%{z:,.0f}<extra></extra>'
             }];
-        
+            
             layout.title.text = `Minimum Salary per Year by State in the USA - ${year}`;
             Plotly.react('map', updatedData, layout, {
                 transition: {
@@ -57,11 +66,10 @@ Plotly.d3.csv("Data.csv", function(data) {
             });
         }
         
-
+        
        
         updateMap(currentYear);
 
-        
         const ctx = document.getElementById('income-chart').getContext('2d');
         let incomeChart = new Chart(ctx, {
             type: 'line',
@@ -104,7 +112,6 @@ Plotly.d3.csv("Data.csv", function(data) {
             }
         });
 
-
         const yearSelector = document.getElementById('year-dropdown');
         const yearSlider = document.getElementById('year-slider');
         
@@ -114,7 +121,7 @@ Plotly.d3.csv("Data.csv", function(data) {
             option.value = year;
             yearSelector.add(option);
         });
-
+        yearSelector.value = "2023"; 
         yearSelector.addEventListener('change', function() {
             currentYear = this.value;
             updateMap(currentYear);
@@ -127,7 +134,6 @@ Plotly.d3.csv("Data.csv", function(data) {
             yearSelector.value = currentYear;
         });
 
-    
         function updateChart(state, year) {
             const incomeData = stateData[state].map(entry => entry.value);
             incomeChart.data.datasets[0].data = incomeData;
@@ -142,6 +148,5 @@ document.getElementById('map').on('plotly_click', function(data) {
     document.getElementById('chart-container').scrollIntoView({ behavior: 'smooth' });
         document.dispatchEvent(new CustomEvent('stateSelected', { detail: { state, stateData } }));
 });
-
     });
 });
